@@ -506,6 +506,14 @@ You can test this function as follows:
 >>> format_reward_func(prompts=prompts, completions=completions)
 [1.0, 0.0]
 ```
+> [!TIP]
+> **Format rewards as noise reduction for sparse correctness signals.** When the primary reward is a sparse binary
+> signal (e.g., answer correct or not), adding a format reward (e.g., +0.2 for using `\boxed{}` or `<answer>` tags)
+> serves a dual purpose beyond enforcing output structure. It provides a denser reward signal that reduces the
+> variance of the group-level advantage estimate. In practice, this means the format reward acts as a form of
+> reward shaping that helps GRPO extract cleaner learning gradients from otherwise noisy binary feedback. When
+> combining format and correctness rewards, keep the format reward magnitude small relative to correctness
+> (e.g., 0.2 vs 1.0) to avoid overshadowing the primary learning signal.
 
 #### Example 3: Reward completions based on a reference
 
